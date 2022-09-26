@@ -66,7 +66,7 @@ class Form extends React.Component {
         </label>
         <br />
         <label htmlFor="numero3">
-          Atributo numerico 2
+          Atributo numerico 3
           <input
             id="numero3"
             name="cardAttr3"
