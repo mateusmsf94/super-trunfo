@@ -1,20 +1,21 @@
-import React from 'react';
-import Card from './components/Card';
-import Form from './components/Form';
+import React from "react";
+import Card from "./components/Card";
+import Form from "./components/Form";
 
 const MAXPOINTS = 210;
+const MAXATRR = 90;
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      cardName: '',
-      cardDescription: '',
+      cardName: "",
+      cardDescription: "",
       cardAttr1: 0,
       cardAttr2: 0,
       cardAttr3: 0,
-      cardImage: '',
-      cardRare: '',
+      cardImage: "",
+      cardRare: "",
       cardTrunfo: false,
       isSaveButtonDisabled: true,
     };
@@ -22,13 +23,14 @@ class App extends React.Component {
 
   inputHandler = ({ target }) => {
     const { name } = target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.type === "checkbox" ? target.checked : target.value;
 
-    this.setState({
-      [name]: value,
-    });
-
-    this.readyToSubmit();
+    this.setState(
+      {
+        [name]: value,
+      },
+      this.readyToSubmit
+    );
   };
 
   readyToSubmit = () => {
@@ -42,24 +44,31 @@ class App extends React.Component {
       cardAttr3,
     } = this.state;
 
-    if (
-      !cardName
-      || !cardDescription
-      || !cardImage
-      || !cardRare
-      || parseInt(cardAttr1, 10)
-        + parseInt(cardAttr2, 10)
-        + parseInt(cardAttr3, 10)
-        > MAXPOINTS
+    const a1 = parseInt(cardAttr1, 10);
+    const a2 = parseInt(cardAttr2, 10);
+    const a3 = parseInt(cardAttr3, 10);
 
-    // cardAttr1 + cardAttr2 + cardAttr3 < 210
+    if (
+      !cardName ||
+      !cardDescription ||
+      !cardImage ||
+      !cardRare ||
+      a1 + a2 + a3 > MAXPOINTS ||
+      a1 < 0 ||
+      a1 > MAXATRR ||
+      a2 < 0 ||
+      a2 > MAXATRR ||
+      a3 < 0 ||
+      a3 > MAXATRR
+
+      // cardAttr1 + cardAttr2 + cardAttr3 < 210
     ) {
       this.setState({
-        isSaveButtonDisabled: false,
+        isSaveButtonDisabled: true,
       });
     } else {
       this.setState({
-        isSaveButtonDisabled: true,
+        isSaveButtonDisabled: false,
       });
     }
   };
@@ -81,27 +90,27 @@ class App extends React.Component {
     return (
       <div>
         <Form
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardImage={ cardImage }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
-          isSaveButtonDisabled={ isSaveButtonDisabled }
-          onInputChange={ this.inputHandler }
-          onSaveButtonClick={ this.buttonHandler }
+          cardName={cardName}
+          cardDescription={cardDescription}
+          cardAttr1={cardAttr1}
+          cardAttr2={cardAttr2}
+          cardAttr3={cardAttr3}
+          cardImage={cardImage}
+          cardRare={cardRare}
+          cardTrunfo={cardTrunfo}
+          isSaveButtonDisabled={isSaveButtonDisabled}
+          onInputChange={this.inputHandler}
+          onSaveButtonClick={this.buttonHandler}
         />
         <Card
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardImage={ cardImage }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
+          cardName={cardName}
+          cardDescription={cardDescription}
+          cardAttr1={cardAttr1}
+          cardAttr2={cardAttr2}
+          cardAttr3={cardAttr3}
+          cardImage={cardImage}
+          cardRare={cardRare}
+          cardTrunfo={cardTrunfo}
         />
       </div>
     );
