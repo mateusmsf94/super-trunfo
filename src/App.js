@@ -129,6 +129,17 @@ class App extends React.Component {
     });
   };
 
+  removeCard = (event) => {
+    const { savedCards } = this.state;
+    const cardToRemove = event.target.previousSibling.firstChild.textContent;
+    this.setState(
+      {
+        savedCards: savedCards.filter((card) => card.cardName !== cardToRemove),
+      },
+      this.checkTrunfo,
+    );
+  };
+
   render() {
     const {
       cardName,
@@ -170,17 +181,25 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
         />
         {savedCards.map((card) => (
-          <Card
-            key={ card.cardName }
-            cardName={ card.cardName }
-            cardDescription={ card.cardDescription }
-            cardAttr1={ card.cardAttr1 }
-            cardAttr2={ card.cardAttr2 }
-            cardAttr3={ card.cardAttr3 }
-            cardImage={ card.cardImage }
-            cardRare={ card.cardRare }
-            cardTrunfo={ card.cardTrunfo }
-          />
+          <div key={ card.cardName }>
+            <Card
+              cardName={ card.cardName }
+              cardDescription={ card.cardDescription }
+              cardAttr1={ card.cardAttr1 }
+              cardAttr2={ card.cardAttr2 }
+              cardAttr3={ card.cardAttr3 }
+              cardImage={ card.cardImage }
+              cardRare={ card.cardRare }
+              cardTrunfo={ card.cardTrunfo }
+            />
+            <button
+              type="button"
+              data-testid="delete-button"
+              onClick={ this.removeCard }
+            >
+              Excluir
+            </button>
+          </div>
         ))}
       </div>
     );
