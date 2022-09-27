@@ -2,19 +2,21 @@ import React from 'react';
 import Card from './components/Card';
 import Form from './components/Form';
 
+const MAXPOINTS = 210;
+
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
       cardName: '',
       cardDescription: '',
-      cardAttr1: '',
-      cardAttr2: '',
-      cardAttr3: '',
+      cardAttr1: 0,
+      cardAttr2: 0,
+      cardAttr3: 0,
       cardImage: '',
       cardRare: '',
       cardTrunfo: false,
-      isSaveButtonDisabled: false,
+      isSaveButtonDisabled: true,
     };
   }
 
@@ -25,11 +27,44 @@ class App extends React.Component {
     this.setState({
       [name]: value,
     });
+
+    this.readyToSubmit();
   };
 
-  buttonHandler = () => {
-    console.log('clicou');
+  readyToSubmit = () => {
+    const {
+      cardName,
+      cardDescription,
+      cardImage,
+      cardRare,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+    } = this.state;
+
+    if (
+      !cardName
+      || !cardDescription
+      || !cardImage
+      || !cardRare
+      || parseInt(cardAttr1, 10)
+        + parseInt(cardAttr2, 10)
+        + parseInt(cardAttr3, 10)
+        > MAXPOINTS
+
+    // cardAttr1 + cardAttr2 + cardAttr3 < 210
+    ) {
+      this.setState({
+        isSaveButtonDisabled: false,
+      });
+    } else {
+      this.setState({
+        isSaveButtonDisabled: true,
+      });
+    }
   };
+
+  buttonHandler = () => {};
 
   render() {
     const {
