@@ -19,6 +19,7 @@ class App extends React.Component {
       cardTrunfo: false,
       isSaveButtonDisabled: true,
       savedCards: [],
+      hasTrunfo: false,
     };
   }
 
@@ -32,6 +33,13 @@ class App extends React.Component {
       },
       this.readyToSubmit,
     );
+  };
+
+  checkTrunfo = () => {
+    const { savedCards } = this.state;
+    this.setState({
+      hasTrunfo: savedCards.some((card) => card.cardTrunfo),
+    });
   };
 
   readyToSubmit = () => {
@@ -82,6 +90,7 @@ class App extends React.Component {
       cardAttr1,
       cardAttr2,
       cardAttr3,
+      cardTrunfo,
     } = this.state;
 
     const newCard = {
@@ -92,13 +101,17 @@ class App extends React.Component {
       cardAttr1,
       cardAttr2,
       cardAttr3,
+      cardTrunfo,
     };
 
     this.setState(
       (prevState) => ({
         savedCards: [...prevState.savedCards, newCard],
       }),
-      this.clearForm,
+      () => {
+        this.checkTrunfo();
+        this.clearForm();
+      },
     );
   };
 
@@ -127,6 +140,7 @@ class App extends React.Component {
       cardRare,
       cardTrunfo,
       isSaveButtonDisabled,
+      hasTrunfo,
     } = this.state;
     return (
       <div>
@@ -142,6 +156,7 @@ class App extends React.Component {
           isSaveButtonDisabled={ isSaveButtonDisabled }
           onInputChange={ this.inputHandler }
           onSaveButtonClick={ this.buttonHandler }
+          hasTrunfo={ hasTrunfo }
         />
         <Card
           cardName={ cardName }
