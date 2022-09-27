@@ -1,6 +1,6 @@
-import React from "react";
-import Card from "./components/Card";
-import Form from "./components/Form";
+import React from 'react';
+import Card from './components/Card';
+import Form from './components/Form';
 
 const MAXPOINTS = 210;
 const MAXATRR = 90;
@@ -9,27 +9,28 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      cardName: "",
-      cardDescription: "",
+      cardName: '',
+      cardDescription: '',
       cardAttr1: 0,
       cardAttr2: 0,
       cardAttr3: 0,
-      cardImage: "",
-      cardRare: "",
+      cardImage: '',
+      cardRare: '',
       cardTrunfo: false,
       isSaveButtonDisabled: true,
+      savedCards: [],
     };
   }
 
   inputHandler = ({ target }) => {
     const { name } = target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
 
     this.setState(
       {
         [name]: value,
       },
-      this.readyToSubmit
+      this.readyToSubmit,
     );
   };
 
@@ -49,19 +50,17 @@ class App extends React.Component {
     const a3 = parseInt(cardAttr3, 10);
 
     if (
-      !cardName ||
-      !cardDescription ||
-      !cardImage ||
-      !cardRare ||
-      a1 + a2 + a3 > MAXPOINTS ||
-      a1 < 0 ||
-      a1 > MAXATRR ||
-      a2 < 0 ||
-      a2 > MAXATRR ||
-      a3 < 0 ||
-      a3 > MAXATRR
-
-      // cardAttr1 + cardAttr2 + cardAttr3 < 210
+      !cardName
+      || !cardDescription
+      || !cardImage
+      || !cardRare
+      || a1 + a2 + a3 > MAXPOINTS
+      || a1 < 0
+      || a1 > MAXATRR
+      || a2 < 0
+      || a2 > MAXATRR
+      || a3 < 0
+      || a3 > MAXATRR
     ) {
       this.setState({
         isSaveButtonDisabled: true,
@@ -73,7 +72,49 @@ class App extends React.Component {
     }
   };
 
-  buttonHandler = () => {};
+  buttonHandler = (event) => {
+    event.preventDefault();
+    const {
+      cardName,
+      cardDescription,
+      cardImage,
+      cardRare,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+    } = this.state;
+
+    const newCard = {
+      cardName,
+      cardDescription,
+      cardImage,
+      cardRare,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+    };
+
+    this.setState(
+      (prevState) => ({
+        savedCards: [...prevState.savedCards, newCard],
+      }),
+      this.clearForm,
+    );
+  };
+
+  clearForm = () => {
+    this.setState({
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
+      cardImage: '',
+      cardRare: 'normal',
+      cardTrunfo: false,
+      isSaveButtonDisabled: true,
+    });
+  };
 
   render() {
     const {
@@ -90,27 +131,27 @@ class App extends React.Component {
     return (
       <div>
         <Form
-          cardName={cardName}
-          cardDescription={cardDescription}
-          cardAttr1={cardAttr1}
-          cardAttr2={cardAttr2}
-          cardAttr3={cardAttr3}
-          cardImage={cardImage}
-          cardRare={cardRare}
-          cardTrunfo={cardTrunfo}
-          isSaveButtonDisabled={isSaveButtonDisabled}
-          onInputChange={this.inputHandler}
-          onSaveButtonClick={this.buttonHandler}
+          cardName={ cardName }
+          cardDescription={ cardDescription }
+          cardAttr1={ cardAttr1 }
+          cardAttr2={ cardAttr2 }
+          cardAttr3={ cardAttr3 }
+          cardImage={ cardImage }
+          cardRare={ cardRare }
+          cardTrunfo={ cardTrunfo }
+          isSaveButtonDisabled={ isSaveButtonDisabled }
+          onInputChange={ this.inputHandler }
+          onSaveButtonClick={ this.buttonHandler }
         />
         <Card
-          cardName={cardName}
-          cardDescription={cardDescription}
-          cardAttr1={cardAttr1}
-          cardAttr2={cardAttr2}
-          cardAttr3={cardAttr3}
-          cardImage={cardImage}
-          cardRare={cardRare}
-          cardTrunfo={cardTrunfo}
+          cardName={ cardName }
+          cardDescription={ cardDescription }
+          cardAttr1={ cardAttr1 }
+          cardAttr2={ cardAttr2 }
+          cardAttr3={ cardAttr3 }
+          cardImage={ cardImage }
+          cardRare={ cardRare }
+          cardTrunfo={ cardTrunfo }
         />
       </div>
     );
