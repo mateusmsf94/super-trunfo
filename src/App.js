@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from './components/Card';
 import Form from './components/Form';
+import List from './components/List';
 
 const MAXPOINTS = 210;
 const MAXATRR = 90;
@@ -180,27 +181,28 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
-        {savedCards.map((card) => (
-          <div key={ card.cardName }>
+        {/* {savedCards.map((card) => (
+          <div key={card.cardName}>
             <Card
-              cardName={ card.cardName }
-              cardDescription={ card.cardDescription }
-              cardAttr1={ card.cardAttr1 }
-              cardAttr2={ card.cardAttr2 }
-              cardAttr3={ card.cardAttr3 }
-              cardImage={ card.cardImage }
-              cardRare={ card.cardRare }
-              cardTrunfo={ card.cardTrunfo }
+              cardName={card.cardName}
+              cardDescription={card.cardDescription}
+              cardAttr1={card.cardAttr1}
+              cardAttr2={card.cardAttr2}
+              cardAttr3={card.cardAttr3}
+              cardImage={card.cardImage}
+              cardRare={card.cardRare}
+              cardTrunfo={card.cardTrunfo}
             />
             <button
               type="button"
               data-testid="delete-button"
-              onClick={ this.removeCard }
+              onClick={this.removeCard}
             >
               Excluir
             </button>
           </div>
-        ))}
+        ))} */}
+        <List lista={ savedCards } removeHandler={ this.removeCard } />
       </div>
     );
   }
